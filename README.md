@@ -12,7 +12,7 @@ Sample
 Load and use a model in controller
 
     $this->load->model('categories');
-		$data['categories'] = $this->categories->getAllActive();
+    $data['categories'] = $this->categories->getAllActive();
 		
 Load a view
 
@@ -22,4 +22,4 @@ Load a view
 Put a view in another view
 
     $general['main'] 		= $this->load->view('browsing/category', $data, true); 
-		$this->load->view('general', $general);
+    $this->load->view('general', $general);
