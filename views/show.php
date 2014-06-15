@@ -2,4 +2,4 @@
 	echo $text;
 ?>
 <br />
-Asta e tare
+Simple view
