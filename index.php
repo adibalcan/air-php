@@ -13,6 +13,7 @@ define('APP_DIR', ROOT);
 define('APP_CONTROLLER', APP_DIR . DS . 'controllers');
 define('APP_MODEL', APP_DIR . DS . 'models');
 define('APP_VIEWS', APP_DIR . DS . 'views');
+define('APP_CACHE', APP_DIR . DS . 'cache');
 
 require_once('config.php');
 
@@ -135,6 +136,13 @@ class db{
 		return $res;
 	}
 
+	public function beginTransaction(){
+		mysqli_autocommit($this->conn,FALSE);
+	}
+
+	public function commit(){
+		mysqli_commit($this->conn);
+	}
 	public function getArray($query){
 		$res 	= $this->query($query);
 		$result	= array();
@@ -147,16 +155,36 @@ class db{
 
 		return $result;
 	}
+	public function insertFromArray($table, $values){
+		$cols = array();
+		$vals = array();
+
+		foreach($values as $key => $val){
+			$cols[] = $key;
+			$vals[]	= $val;
+		}
+
+		$colStr = '`' . implode('`, `', $cols) . '`';
+		$valStr = '"' . implode('", "', $vals) . '"';
+
+		$query = 'INSERT INTO `'.$table.'` (%s) VALUES (%s)';
+		$query = sprintf($query, $colStr, $valStr);
+
+		return $this->query($query);
+	}
 }
 
 //Router
 if(!empty($_GET['url'])){
 
 	$routed = false;
-	foreach ($routes as $key => $route) {
-		if(preg_match($route['url'], $_GET['url'])){
+	foreach ($routes as $key => $route){
+		if(preg_match($route['url'], $_GET['url'], $matches)){
 			$inst = new $route['controller']();
-			$inst->$route['action']();
+			
+			//Added first group as controller param
+			$inst->$route['action']($matches[1]);
+			
 			$routed = true;
 			break;
 		}
