@@ -19,5 +19,5 @@ $routes = array();
 
 
 //DEFAULT CONTROLLER
-$default = array('controller' => 'start', 'action' => 'teste');
+$default = array('controller' => 'start', 'action' => 'test');
 
