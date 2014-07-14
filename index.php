@@ -182,8 +182,12 @@ if(!empty($_GET['url'])){
 		if(preg_match($route['url'], $_GET['url'], $matches)){
 			$inst = new $route['controller']();
 			
-			//Added first group as controller param
-			$inst->$route['action']($matches[1]);
+			//Added first group as controller param						
+			if(isset($matches[1])){
+				$inst->$route['action']($matches[1]);	
+			}else{
+				$inst->$route['action']();
+			}
 			
 			$routed = true;
 			break;
