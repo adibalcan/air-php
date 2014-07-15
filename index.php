@@ -2,8 +2,9 @@
 //Air MVC framework
 //Adrian Balcan
 //start date: 19.07.2012
-//last update: 12.03.2014
-//version 12
+//last update: 15.07.2014
+//version 13
+//PHP version >= 5.2 
 
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT',dirname(__FILE__));
@@ -18,18 +19,19 @@ define('APP_CACHE', APP_DIR . DS . 'cache');
 require_once('config.php');
 
 //Autoload
-function __autoload($className)
+function airAutoloader($className)
 { 
 	if (file_exists(APP_CONTROLLER  . DS . strtolower($className) . '.php'))
 		require_once(APP_CONTROLLER . DS . strtolower($className) . '.php');
 	
 	else if (file_exists(APP_MODEL . DS . strtolower($className) . '.php'))
 		require_once(APP_MODEL . DS . strtolower($className) . '.php');
-
 	else		
 		throw new Exception('Class ' . $className . ' not found');
 		//trigger_error('Class ' . $className . ' not found', E_USER_ERROR);
 }
+
+spl_autoload_register('airAutoloader');
 
 function display404(){
 	header('HTTP/1.0 404 Not Found');
