@@ -162,8 +162,8 @@ class db{
 		$vals = array();
 
 		foreach($values as $key => $val){
-			$cols[] = $key;
-			$vals[]	= $val;
+			$cols[] = mysqli_real_escape_string($this->conn, $key);
+			$vals[]	= mysqli_real_escape_string($this->conn, $val);
 		}
 
 		$colStr = '`' . implode('`, `', $cols) . '`';
