@@ -52,28 +52,28 @@ class loader{
 	}
 
 	//Load view
-	public function view($name, $params = array(), $returnOutput = false){
+	public function view($viewName, $viewParams = array(), $returnOutput = false){
 		
 		if($returnOutput){
 			ob_start();
 		}
 
-		if(count($params) > 0){
-			foreach($params as $key => $param){
-				$$key = $param;
+		if(count($viewParams) > 0){
+			foreach($viewParams as $paramKey => $paramValue){
+				$$paramKey = $paramValue;
 			}
 		}
 
-		if(file_exists(APP_VIEWS . DS . $name . '.php')){
-			require(APP_VIEWS . DS . $name . '.php');
+		if(file_exists(APP_VIEWS . DS . $viewName . '.php')){
+			require(APP_VIEWS . DS . $viewName . '.php');
 		}else{
-			trigger_error($name . ' doesn\'t exists', E_USER_ERROR);			
+			trigger_error($viewName . ' doesn\'t exists', E_USER_ERROR);			
 		}
 
 		if($returnOutput){
-			$output = ob_get_clean();
+			$viewOutput = ob_get_clean();
 			ob_end_clean();
-			return $output;
+			return $viewOutput;
 		}
 	}
 
