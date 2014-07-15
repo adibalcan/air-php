@@ -177,6 +177,11 @@ class db{
 }
 
 //Router
+//For CLI Call
+if(!isset($_GET['url'])){
+	$_GET['url']=implode('/', array_slice($argv, 1));
+}
+
 if(!empty($_GET['url'])){
 
 	$routed = false;
